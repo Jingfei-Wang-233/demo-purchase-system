@@ -1,4 +1,4 @@
-package com.tw.capability.gtb.demopurchasesystem;
+package com.tw.capability.gtb.demopurchasesystem.domain;
 
 import lombok.*;
 
@@ -10,14 +10,6 @@ import java.math.BigDecimal;
 @NoArgsConstructor
 @Entity(name = "products")
 public class Product {
-
-    public Product(String title, BigDecimal price, String description, String platform, int tier) {
-        this.title = title;
-        this.price = price;
-        this.description = description;
-        this.platform = platform;
-        this.tier = tier;
-    }
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
