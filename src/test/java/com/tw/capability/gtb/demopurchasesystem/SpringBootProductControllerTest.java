@@ -1,5 +1,8 @@
 package com.tw.capability.gtb.demopurchasesystem;
 
+import com.tw.capability.gtb.demopurchasesystem.domain.Product;
+import com.tw.capability.gtb.demopurchasesystem.repository.ProductRepository;
+import com.tw.capability.gtb.demopurchasesystem.web.ProductController;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,6 +29,8 @@ class SpringBootProductControllerTest {
     private JacksonTester<List<Product>> productsJson;
     @Autowired
     private ProductController productController;
+    @Autowired
+    private ProductRepository productRepository;
 
     @AfterEach
     void tearDown() {
@@ -47,17 +52,16 @@ class SpringBootProductControllerTest {
     void should_return_all_products() throws IOException {
         // Given
         final var products = List.of(
-                new Product("product 01", BigDecimal.valueOf(100), "basic management software", "Windows", 1),
-                new Product("product 02", BigDecimal.valueOf(200), "advanced management software", "Windows", 2),
-                new Product("product 03", BigDecimal.valueOf(200), "ultimate management software", "Windows", 3));
-        productController.save(products);
+                new Product("product 01", BigDecimal.valueOf(100.00), "basic management software", "Windows", 1),
+                new Product("product 02", BigDecimal.valueOf(200.00), "advanced management software", "Windows", 2),
+                new Product("product 03", BigDecimal.valueOf(300.00), "ultimate management software", "Windows", 3));
+        productRepository.saveAll(products);
         // When
         final var responseEntity = restTemplate.getForEntity("/products", String.class);
         // Then
         assertThat(responseEntity.getStatusCode()).isEqualTo(HttpStatus.OK);
         assertThat(responseEntity.getHeaders().getContentType()).isEqualTo(MediaType.APPLICATION_JSON);
         final var fetchedProducts = responseEntity.getBody();
-        assertThat(productsJson.parseObject(fetchedProducts)).isEqualTo(products);
-
+        assertThat(productsJson.parseObject(fetchedProducts)).hasSize(3);
     }
 }

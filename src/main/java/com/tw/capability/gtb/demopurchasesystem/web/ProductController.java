@@ -1,5 +1,8 @@
 package com.tw.capability.gtb.demopurchasesystem;
 
+import com.tw.capability.gtb.demopurchasesystem.domain.Product;
+import com.tw.capability.gtb.demopurchasesystem.repository.ProductRepository;
+import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -9,20 +12,17 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/products")
+@RequiredArgsConstructor
 public class ProductController {
 
-    private List<Product> products = Collections.emptyList();
 
+    private final ProductRepository productRepository;
     @GetMapping
     public List<Product> fetchProducts() {
-        return products;
-    }
-
-    public void save(List<Product> products) {
-        this.products = products;
+        return productRepository.findAll();
     }
 
     public void deleteAll() {
-        products = Collections.emptyList();
+        productRepository.deleteAll();
     }
 }
