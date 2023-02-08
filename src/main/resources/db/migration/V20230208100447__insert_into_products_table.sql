@@ -1,0 +1,12 @@
+insert into products(id,description, platform, price, tier, title) values (1,'basic product','windows',100,1,'product 1');
+insert into products(id,description, platform, price, tier, title) values (2,'advanced product','mac os',200,2,'product 2');
+insert into products(id,description, platform, price, tier, title) values (3,'ultimate product','windows',300,3,'product 3');
+insert into products(id,description, platform, price, tier, title) values (4,'very powerful','windows',300,3,'product 4');
+insert into products(id,description, platform, price, tier, title) values (5,'powerful','windows',300,0,'product 5');
+insert into products(id,description, platform, price, tier, title) values (6,'easy to use','windows',300,1,'product 6');
+insert into products(id,description, platform, price, tier, title) values (7,'finance helper','mac os',300,2,'product 7');
+insert into products(id,description, platform, price, tier, title) values (8,'one to one service','windows',300,3,'product 8');
+insert into products(id,description, platform, price, tier, title) values (9,'24/7','windows',300,0,'product 9');
+insert into products(id,description, platform, price, tier, title) values (10,'trust worthy','all',400,3,'product 10');
+insert into products(id,description, platform, price, tier, title) values (11,'your friend','windows',300,2,'product 11');
+insert into products(id,description, platform, price, tier, title) values (12,'candidate','linux',100,1,'product 12');
