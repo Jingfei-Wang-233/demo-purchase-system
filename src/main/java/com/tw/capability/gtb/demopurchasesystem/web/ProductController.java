@@ -1,13 +1,11 @@
 package com.tw.capability.gtb.demopurchasesystem.web;
 
-import com.tw.capability.gtb.demopurchasesystem.domain.Product;
 import com.tw.capability.gtb.demopurchasesystem.service.ProductService;
+import com.tw.capability.gtb.demopurchasesystem.web.dto.response.PageResponse;
 import lombok.RequiredArgsConstructor;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
 
 @RestController
 @RequestMapping("/products")
@@ -18,8 +16,10 @@ public class ProductController {
     private final ProductService productService;
 
     @GetMapping
-    public List<Product> fetchProducts() {
-        return productService.findTasks();
+    public ResponseEntity<PageResponse> fetchAllInPaging(@RequestParam(required = false, defaultValue = "1") int pageNumber,
+                                                         @RequestParam(required = false, defaultValue = "10") int pageSize) {
+        PageResponse pageResponse = productService.fetchAllInPaging(pageNumber - 1, pageSize);
+        pageResponse.setNumber(pageResponse.getNumber() + 1);
+        return ResponseEntity.ok().body(pageResponse);
     }
-
 }
