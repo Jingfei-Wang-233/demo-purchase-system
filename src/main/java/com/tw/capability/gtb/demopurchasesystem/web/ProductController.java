@@ -1,7 +1,7 @@
 package com.tw.capability.gtb.demopurchasesystem.web;
 
 import com.tw.capability.gtb.demopurchasesystem.domain.Product;
-import com.tw.capability.gtb.demopurchasesystem.repository.ProductRepository;
+import com.tw.capability.gtb.demopurchasesystem.service.ProductService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -15,13 +15,11 @@ import java.util.List;
 public class ProductController {
 
 
-    private final ProductRepository productRepository;
+    private final ProductService productService;
+
     @GetMapping
     public List<Product> fetchProducts() {
-        return productRepository.findAll();
+        return productService.findTasks();
     }
 
-    public void deleteAll() {
-        productRepository.deleteAll();
-    }
 }

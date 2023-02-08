@@ -1,7 +1,7 @@
 package com.tw.capability.gtb.demopurchasesystem;
 
 import com.tw.capability.gtb.demopurchasesystem.domain.Product;
-import com.tw.capability.gtb.demopurchasesystem.web.ProductController;
+import com.tw.capability.gtb.demopurchasesystem.repository.ProductRepository;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,11 +29,11 @@ class SpringBootProductControllerTest {
     @Autowired
     private JacksonTester<List<Product>> productsJson;
     @Autowired
-    private ProductController productController;
+    private ProductRepository productRepository;
 
     @AfterEach
     void tearDown() {
-        productController.deleteAll();
+        productRepository.deleteAll();
     }
 
     @Test
