@@ -41,7 +41,5 @@ class ProductControllerTest {
                         .andExpect(jsonPath("$.size").value(2))
                 .andExpect(jsonPath("$.products").isArray())
                 .andExpect(jsonPath("$.products.length()").value(2));
-
-
     }
 }
