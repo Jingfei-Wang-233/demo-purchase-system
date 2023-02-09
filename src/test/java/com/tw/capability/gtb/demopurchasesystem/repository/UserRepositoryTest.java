@@ -1,5 +1,6 @@
 package com.tw.capability.gtb.demopurchasesystem.repository;
 
+import com.tw.capability.gtb.demopurchasesystem.domain.Role;
 import com.tw.capability.gtb.demopurchasesystem.domain.User;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -8,6 +9,7 @@ import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.test.annotation.Rollback;
 import org.springframework.test.context.jdbc.Sql;
 
+import java.util.List;
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.assertFalse;
@@ -47,5 +49,20 @@ class UserRepositoryTest {
         assertThat(user.get().getUsername()).isEqualTo("luoyong123");
         assertThat(user.get().getRole().getRoleName()).isEqualTo("USER");
     }
-
+    @Test
+    @Sql("/sql/insert_a_user.sql")
+    void should_save_user_successfully() {
+        User user = User.builder()
+                .username("harry potter")
+                .password("encryptedPassword")
+                .role(Role.builder().id(2L).roleName("USER").build())
+                .build();
+        User savedUsers = userRepository.save(user);
+        assertThat(savedUsers.getId()).isNotNull();
+        assertThat(savedUsers.getUsername()).isEqualTo(user.getUsername());
+        assertThat(savedUsers.getRole()).isEqualTo(user.getRole());
+        assertThat(savedUsers.getLevel()).isZero();
+        List<User> allUsers = userRepository.findAll();
+        assertThat(allUsers).hasSize(2);
+    }
 }
