@@ -7,6 +7,7 @@ import com.tw.capability.gtb.demopurchasesystem.support.exception.UserDuplicateE
 import com.tw.capability.gtb.demopurchasesystem.web.dto.request.UserRegisterRequest;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -14,12 +15,15 @@ import org.springframework.stereotype.Service;
 public class UserService {
     @Autowired
     private UserRepository userRepository;
+    @Autowired
+    private PasswordEncoder passwordEncoder;
     public void register(UserRegisterRequest request) {
         validateForRegister(request);
         Role roleUser = Role.builder().id(2L).roleName("USER").build();
+        String password = request.getPassword();
         User user = User.builder()
                 .username(request.getUsername())
-                .password(request.getPassword())
+                .password(passwordEncoder.encode(password))
                 .role(roleUser)
                 .level(0).build();
         userRepository.save(user);

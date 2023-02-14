@@ -5,13 +5,13 @@ import lombok.Builder;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
-
 @Getter
 @Entity
 @Builder
@@ -25,5 +25,9 @@ public class Role {
     private Long id;
 
     private String roleName;
+
+    public SimpleGrantedAuthority roleMapper(String roleName) {
+        return new SimpleGrantedAuthority(roleName);
+    }
 
 }
