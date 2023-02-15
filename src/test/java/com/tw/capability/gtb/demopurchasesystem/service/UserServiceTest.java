@@ -8,6 +8,7 @@ import com.tw.capability.gtb.demopurchasesystem.web.dto.request.UserRegisterRequ
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.security.crypto.password.PasswordEncoder;
 
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.ArgumentMatchers.any;
@@ -19,26 +20,26 @@ import static org.mockito.Mockito.when;
 @ExtendWith(MockitoExtension.class)
 class UserServiceTest {
     private final UserRepository userRepository = mock(UserRepository.class);
+    private final PasswordEncoder passwordEncoder = mock(PasswordEncoder.class);
 
-    private final UserService userService = new UserService(userRepository);
+    private final UserService userService = new UserService(userRepository,passwordEncoder);
 
     @Test
     void should_register_user_successfully() {
-        UserRegisterRequest registerRequest = UserRegisterRequest.builder().username("wangbingbing").password("Wangbingbing@123").build();
-        // Given
-        Role roleUser = Role.builder().roleName("USER").id(2L).build();
-        User newUser = User.builder()
-                .username("wangbingbing")
-                .password("Wangbingbing@123")
-                .role(roleUser)
-                .level(0)
-                .build();
-        User savedUser = new User(1L,"wangbingbing","Wangbingbing@123",0,roleUser);
-        // When
-        when(userRepository.save(newUser)).thenReturn(savedUser);
+        String username = "wangbingbing";
+        String password = "Wangbingbing@123";
+        String encryptedPassword = "encryptedPassword";
+        UserRegisterRequest registerRequest = UserRegisterRequest.builder().username(username).password(password).build();
+        User user = new User();
+        user.setUsername(username);
+        user.setRole(Role.builder().roleName("USER").id(2L).build());
+        user.setPassword(encryptedPassword);
+
+        when(userRepository.existsByUsername(username)).thenReturn(Boolean.FALSE);
+        when(passwordEncoder.encode(password)).thenReturn(encryptedPassword);
         userService.register(registerRequest);
-        // Then
-        verify(userRepository).save(newUser);
+
+        verify(userRepository,times(1)).save(user);
     }
 
     @Test
